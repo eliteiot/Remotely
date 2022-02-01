@@ -50,6 +50,11 @@ namespace Remotely.Server.API
                         var filePath = Path.Combine(_hostEnv.WebRootPath, "Content", "Linux-x64", "Remotely_Desktop");
                         return await GetDesktopFile(filePath);
                     }
+                case "linux-arm64":
+                    {
+                        var filePath = Path.Combine(_hostEnv.WebRootPath, "Content", "Linux-arm64", "Remotely_Desktop");
+                        return await GetDesktopFile(filePath);
+                    }
                 case "linux-arm":
                     {
                         var filePath = Path.Combine(_hostEnv.WebRootPath, "Content", "Linux-arm", "Remotely_Desktop");
@@ -89,6 +94,11 @@ namespace Remotely.Server.API
                 case "UbuntuDesktop":
                     {
                         var filePath = Path.Combine(_hostEnv.WebRootPath, "Content", "Linux-x64", "Remotely_Desktop");
+                        return await GetDesktopFile(filePath, organizationId);
+                    }
+                case "linux-arm64":
+                    {
+                        var filePath = Path.Combine(_hostEnv.WebRootPath, "Content", "Linux-arm64", "Remotely_Desktop");
                         return await GetDesktopFile(filePath, organizationId);
                     }
                 case "linux-arm":
@@ -199,6 +209,12 @@ namespace Remotely.Server.API
                         case "UbuntuInstaller-x64":
                             {
                                 var fileName = "Install-Ubuntu-x64.sh";
+
+                                return await GetBashInstaller(fileName, organizationId);
+                            }
+                        case "arm64Installer":
+                            {
+                                var fileName = "Install-arm64.sh";
 
                                 return await GetBashInstaller(fileName, organizationId);
                             }
