@@ -1,6 +1,6 @@
 #!/bin/bash
-HostName=
-Organization=
+HostName="http://remote2.elitewa.com.au"
+Organization="2d624984-5f06-4f89-9791-c5cb476a346f"
 GUID=$(cat /proc/sys/kernel/random/uuid)
 UpdatePackagePath=""
 
