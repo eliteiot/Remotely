@@ -65,6 +65,7 @@ jobs:
           echo "CurrentVersion=$CurrentVersion" >> $env:GITHUB_ENV
 
           Write-Host "Setting current version to $CurrentVersion."
+
       - name: Publish linux arm64 Agent
         shell: pwsh
         run: |
@@ -86,6 +87,28 @@ jobs:
         with:
           path: ./Agent/bin/Remotely-Linux-arm64.zip
           name: Linux-Agent-arm64
+
+      - name: Publish linux arm64 Desktop
+        shell: pwsh
+        run: |
+          $VersionString = git show -s --format=%ci
+          $VersionDate = [DateTimeOffset]::Parse($VersionString)
+
+          $Year = $VersionDate.Year.ToString()
+          $Month = $VersionDate.Month.ToString().PadLeft(2, "0")
+          $Day = $VersionDate.Day.ToString().PadLeft(2, "0")
+          $Hour = $VersionDate.Hour.ToString().PadLeft(2, "0")
+          $Minute = $VersionDate.Minute.ToString().PadLeft(2, "0")
+          $CurrentVersion = "$Year.$Month.$Day.$Hour$Minute"
+          
+          Write-Host "Publishing Desktop with version $CurrentVersion"
+          dotnet publish /p:Version=$CurrentVersion /p:FileVersion=$CurrentVersion -p:PublishProfile=packaged-linux-arm64 --configuration Release --output "./Agent/bin/publish/" "./Desktop.XPlat/"
+          Compress-Archive -Path "./Agent/bin/publish/*" -DestinationPath "./Agent/bin/Remotely-Linux-Desktop-arm64.zip" -Force
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./Agent/bin/Remotely-Linux-Desktop-arm64.zip
+          name: Linux-Agent-Desktop-arm64
 
       - name: Publish linux arm32 Agent
         shell: pwsh
@@ -185,7 +208,7 @@ jobs:
       with:
         # Comment out the below 'repository' line if you want to build from
         # your fork instead of the author's.
-        repository: lucent-sea/Remotely
+        #repository: lucent-sea/Remotely
         fetch-depth: 0
 
     # Test the Server URL to make sure it's valid
