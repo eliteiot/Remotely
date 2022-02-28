@@ -9,7 +9,7 @@
 
     <AssemblyName>Remotely_Tests</AssemblyName>
 
-    <Platforms>AnyCPU;x64;x86</Platforms>
+    <Platforms>AnyCPU;x64;x86;arm;arm64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

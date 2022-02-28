@@ -79,7 +79,7 @@ jobs:
           $CurrentVersion = "$Year.$Month.$Day.$Hour$Minute"
           
           Write-Host "Publishing agent with version $CurrentVersion"
-          dotnet publish /p:Version=$CurrentVersion /p:FileVersion=$CurrentVersion --runtime linux-arm64 --configuration Release --output "./Agent/bin/publish/" "./Agent/"
+          dotnet publish /p:Version=$CurrentVersion /p:FileVersion=$CurrentVersion --runtime linux-arm64 --self-contained --configuration Release --output "./Agent/bin/publish/" "./Agent/"
           Compress-Archive -Path "./Agent/bin/publish/*" -DestinationPath "./Agent/bin/Remotely-Linux-arm64.zip" -Force
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
@@ -101,7 +101,7 @@ jobs:
           $CurrentVersion = "$Year.$Month.$Day.$Hour$Minute"
           
           Write-Host "Publishing agent with version $CurrentVersion"
-          dotnet publish /p:Version=$CurrentVersion /p:FileVersion=$CurrentVersion --runtime linux-arm --configuration Release --output "./Agent/bin/publish/" "./Agent/"
+          dotnet publish /p:Version=$CurrentVersion /p:FileVersion=$CurrentVersion --runtime linux-arm --self-contained --configuration Release --output "./Agent/bin/publish/" "./Agent/"
           Compress-Archive -Path "./Agent/bin/publish/*" -DestinationPath "./Agent/bin/Remotely-Linux-arm.zip" -Force
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
@@ -156,7 +156,7 @@ jobs:
           $CurrentVersion = "$Year.$Month.$Day.$Hour$Minute"
           
           Write-Host "Publishing agent with version $CurrentVersion"
-          dotnet publish /p:Version=$CurrentVersion /p:FileVersion=$CurrentVersion --runtime osx-x64 --configuration Release --output "./Agent/bin/publish/" "./Agent/"
+          dotnet publish /p:Version=$CurrentVersion /p:FileVersion=$CurrentVersion --runtime osx-x64 --self-contained --configuration Release --output "./Agent/bin/publish/" "./Agent/"
           Compress-Archive -Path "./Agent/bin/publish/*" -DestinationPath "./Agent/bin/Remotely-MacOS-x64.zip" -Force
 
       - name: Upload build artifact
