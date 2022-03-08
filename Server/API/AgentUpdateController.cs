@@ -101,8 +101,14 @@ namespace Remotely.Server.API
                     case "win-x86":
                         filePath = Path.Combine(HostEnv.WebRootPath, "Content", "Remotely-Win10-x86.zip");
                         break;
-                    case "linux":
+                    case "linux-x64":
                         filePath = Path.Combine(HostEnv.WebRootPath, "Content", "Remotely-Linux.zip");
+                        break;
+                    case "linux-arm":
+                        filePath = Path.Combine(HostEnv.WebRootPath, "Content", "Remotely-Linux-arm.zip");
+                        break;
+                    case "linux-arm64":
+                        filePath = Path.Combine(HostEnv.WebRootPath, "Content", "Remotely-Linux-arm64.zip");
                         break;
                     case "macos-x64":
                         filePath = Path.Combine(HostEnv.WebRootPath, "Content", "Remotely-MacOS-x64.zip");

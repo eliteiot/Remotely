@@ -42,9 +42,9 @@ namespace Remotely.Agent.Services
                 return;
             }
 
-            await CheckForUpdates();
-            _updateTimer.Elapsed += UpdateTimer_Elapsed;
-            _updateTimer.Start();
+            //await CheckForUpdates();
+            //_updateTimer.Elapsed += UpdateTimer_Elapsed;
+            //_updateTimer.Start();
         }
 
         public async Task CheckForUpdates()
@@ -135,7 +135,15 @@ namespace Remotely.Agent.Services
 
                 string platform;
 
-                if (RuntimeInformation.OSDescription.Contains("Ubuntu", StringComparison.OrdinalIgnoreCase))
+                if (RuntimeInformation.RuntimeIdentifier.Contains("Arm64", StringComparison.OrdinalIgnoreCase))
+                {
+                    platform = "arm64Installer";
+                }
+                else if (RuntimeInformation.RuntimeIdentifier.Contains("Arm", StringComparison.OrdinalIgnoreCase))
+                {
+                    platform = "armInstaller";
+                }
+                else if (RuntimeInformation.OSDescription.Contains("Ubuntu", StringComparison.OrdinalIgnoreCase))
                 {
                     platform = "UbuntuInstaller-x64";
                 }

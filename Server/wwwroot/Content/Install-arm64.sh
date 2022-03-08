@@ -1,6 +1,6 @@
 #!/bin/bash
-HostName="http://remote2.elitewa.com.au"
-Organization="2d624984-5f06-4f89-9791-c5cb476a346f"
+HostName=
+Organization=
 GUID=$(cat /proc/sys/kernel/random/uuid)
 UpdatePackagePath=""
 
@@ -14,6 +14,7 @@ do
         systemctl stop remotely-agent
         rm -r -f /usr/local/bin/Remotely
         rm -f /etc/systemd/system/remotely-agent.service
+        rm -f /usr/bin/dotnet
         systemctl daemon-reload
         exit
     elif [ "${Args[$i]}" = "--path" ]; then
@@ -23,21 +24,19 @@ done
 
 UbuntuVersion=$(lsb_release -r -s)
 
-# Install .NET Core Runtime.
-curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin -c 6.0
-echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.bashrc
-echo 'export PATH=$PATH:$HOME/.dotnet' >> ~/.bashrc
-source ~/.bashrc
+apt-get -y install libx11-dev libxrandr-dev unzip libc6-dev libgdiplus libxtst-dev xclip jq curl wget make gcc g++
 
-apt-get -y install libx11-dev
-apt-get -y install libxrandr-dev
-apt-get -y install unzip
-apt-get -y install libc6-dev
-apt-get -y install libgdiplus
-apt-get -y install libxtst-dev
-apt-get -y install xclip
-apt-get -y install jq
-apt-get -y install curl
+# Install .NET Core Runtime.
+cd /tmp
+rm -f dotnet-install*
+wget https://dot.net/v1/dotnet-install.sh
+chmod +x dotnet-install.sh
+
+mkdir -p /usr/local/bin/dotnet
+./dotnet-install.sh -c 6.0 --runtime dotnet --install-dir /usr/local/bin/dotnet
+ln -s /usr/local/bin/dotnet/dotnet /usr/bin/dotnet
+
+rm -f dotnet-install*
 
 sudo curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
 sudo apt install nodejs
@@ -89,7 +88,7 @@ runtimeOptions="{
 
 echo "$runtimeOptions" > ./Desktop/Remotely_Desktop.runtimeconfig.json
 
-curl --head $HostName/Content/Remotely-Linux.zip | grep -i "etag" | cut -d' ' -f 2 > ./etag.txt
+curl --head $HostName/Content/Remotely-Linux-arm64.zip | grep -i "etag" | cut -d' ' -f 2 > ./etag.txt
 
 echo Creating service... >> /tmp/Remotely_Install.log
 
